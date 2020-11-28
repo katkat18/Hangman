@@ -6,7 +6,7 @@ let wordSlot = "";
 let wordSlotArray = []; 
 
 //other variables:
-let word = "leo";
+let word = "zoro";
 let wordArray = []; 
 let hint = "a very big dog";
 let letter = "";
@@ -14,6 +14,9 @@ let guesses = 0;
 const guessLimit = 6;
 let correctGuess = false; 
 const game = "";
+
+const $pikachuImg = $('#hangman-image');
+let currentImageNumber = 1; 
 
 //generating random words and hints (definitions) using Wordnik API
 const apiKey = '1iq9ncc7hnq0r1io7gzrevu7wkfr7si0c2uwh9tetrtelhn2d';
@@ -86,13 +89,19 @@ $('.letter').click(function(){
         }
     }
 
+    //wrong
     if(!correctGuess){
         guesses++
         updateGuessOutput(guesses); 
+        updateImage(); 
     }
+    correctGuess = false; 
 
     //check if we won 
     checkForWin(); 
+
+    //disable button 
+    $(this).attr('disabled', 'disabled');
 
 });
 
@@ -152,8 +161,17 @@ function checkForWin(){
         //lose -- display losing popup
         console.log("you lose");
         //$('#lose-pop-up').css('display', 'block');
-       // $('#lose-pop-up').css('opacity', 1);
+        $('#lose-pop-up').css('opacity', 1);
 
     }
 
+}
+
+function updateImage(){
+    currentImageNumber++ 
+    $pikachuImg.attr({
+        'src': `images/pika-hangman/pikachu-${currentImageNumber}.PNG`,
+        'alt': `pikachu-${currentImageNumber}`
+
+    });
 }
