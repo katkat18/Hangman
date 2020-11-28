@@ -8,6 +8,7 @@ let wordSlotArray = [];
 //other variables:
 let word = "zoro";
 let wordArray = []; 
+let guessedLetters = []; 
 let hint = "a very big dog";
 let letter = "";
 let guesses = 0; 
@@ -56,7 +57,8 @@ $('#play-btn').click(function(){
 
     //make lines on HTML output word 
     for(let i = 0; i < wordArray.length; i++){
-        wordSlotArray.push(`___ `); 
+        wordSlotArray.push(`___ `);
+        //$wordSlotOutput.append(`___ `);
     
     }
 
@@ -78,12 +80,14 @@ $('.letter').click(function(){
     console.log(`this is value: ${$(this).val()}`);
     letter = $(this).val(); 
 
+    //add to guessed letters
+    guessedLetters.push(letter); 
 
     //check if we got a correct letter 
     for(let i = 0; i < wordArray.length; i++){
         //correct
         if(letter == wordArray[i]){
-            wordSlotArray[i] = `${letter}    `; 
+            wordSlotArray[i] = `${letter}            `; 
             $wordSlotOutput.html(wordSlotArray);
             correctGuess = true; 
         }
@@ -156,6 +160,7 @@ function updateGuessOutput(num){
 
 
 function checkForWin(){
+    let correctLetters = 0; 
     //if number of gueeses has been passed you lose
     if(guesses >= 6){
         //lose -- display losing popup
@@ -163,6 +168,18 @@ function checkForWin(){
         //$('#lose-pop-up').css('display', 'block');
         $('#lose-pop-up').css('opacity', 1);
 
+    }
+
+ 
+    //check to see if word has been guessed 
+    for(let i = 0; i < wordArray.length; i++){
+        if(guessedLetters.includes(wordArray[i])){
+            correctLetters++;
+        }
+    }
+
+    if(correctLetters == wordArray.length){
+        console.log("you win!");
     }
 
 }
