@@ -10,13 +10,10 @@
   height: 500px;
   background-color: lightgreen;
   transform: translate(0%, 50%);
-  opacity: 0;
 }
 
 #lose-pop-up {
   width: 500px;
   height: 500px;
   background-color: lightpink;
-  transform: translate(0%, -70%);
-  opacity: 0;
 }

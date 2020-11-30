@@ -2,19 +2,18 @@
 
 //retrieve elements
 const $wordSlotOutput = $('#word-container');
-let wordSlot = ""; 
+//let wordSlot = ""; 
 let wordSlotArray = []; 
 
 //other variables:
 let word = "zoro";
 let wordArray = []; 
 let guessedLetters = []; 
-let hint = "a very big dog";
+let hint = "A very tiny dog";
 let letter = "";
 let guesses = 0; 
 const guessLimit = 6;
 let correctGuess = false; 
-const game = "";
 
 const $pikachuImg = $('#hangman-image');
 let currentImageNumber = 1; 
@@ -24,34 +23,89 @@ const apiKey = '1iq9ncc7hnq0r1io7gzrevu7wkfr7si0c2uwh9tetrtelhn2d';
 const fetchWordURL = `https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${apiKey}`;
 //const fetchHintURL = `https://api.wordnik.com/v4/word.json/${currWord}/definitions?limit=1&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`;
 
+//hide win/lose pop-ups
+$('#win-pop-up').hide();
+$('#lose-pop-up').hide();
 
 //objects
-/*
+
 class Game{
     constructor(){
-        this.isActive = false;
+        this.isActive = true;
     }
+
     checkForWin(){
-        //if word if guessed in allotted time, the player wins 
-        //else they lose 
+        let correctLetters = 0; 
+        //check if they surpassed that allotted attempts 
+        if(guesses >= 6){
+            //lose -- display losing popup
+            console.log("you lose");
+            //$('#lose-pop-up').css('opacity', 1);
+            $('#lose-pop-up').show(); 
+            //disable all buttons 
+            $('.letter').attr('disabled', 'disabled');
+    
+        }
+        //check if correct word has been guessed 
+        for(let i = 0; i < wordArray.length; i++){
+            if(guessedLetters.includes(wordArray[i])){
+                correctLetters++;
+            }
+        }
+    
+        if(correctLetters == wordArray.length){
+            $('#win-pop-up').show(); 
+            console.log("you win!");
+            $('.letter').attr('disabled', 'disabled');
+        }
+        //return true or false 
+
     }
-    reset(){
-        //reset word -- call functions
-        //reset all disabled stuff
+    newGame(){
+        //fetch new word and hint -- store it 
+        //fetchWord(fetchWordURL);
+        //enable all buttons
+        $('.letter').removeAttr('disabled');
+        //set up game lines 
+        wordArray = word.split("");
+        
+        //set up letter slots
+
+        for(let i = 0; i < wordArray.length; i++){
+            console.log("splitting array ");
+            console.log(`split array: ${wordArray[i]}`);
+        }
+        //make lines on HTML output word 
+        for(let i = 0; i < wordArray.length; i++){
+            wordSlotArray.push(`___ `);    
+        }
+        $wordSlotOutput.html(wordSlotArray);
+        //set up all variables needed for word and hint
+        //display hint 
+        $('#hint-output').html(`Hint: ${hint}`); 
+        //display guess output 
+        updateGuessOutput(guesses);
+        resetImage(); 
+
     }
 }
-*/
 //start a new game 
+const game = new Game(); 
 
 $('#play-btn').click(function(){
-    $('#start-pop-up').css('display', 'none');
+    $('#start-pop-up').hide();
 
     //start a new game
+    console.log("starting a new game");
+    game.newGame(); 
     //fetchWord(fetchWordURL);
     //put word into an array 
-    wordArray = splitArray(word); 
+
+    /*
+    wordArray = word.split(""); 
 
     for(let i = 0; i < wordArray.length; i++){
+        console.log("splitting array ");
         console.log(`split array: ${wordArray[i]}`);
     }
 
@@ -70,9 +124,18 @@ $('#play-btn').click(function(){
     //display output 
     updateGuessOutput(guesses);
 
-
+*/
 
 });
+
+$('.reset-btn').click(function(){
+    $(this).parent().hide(); 
+    guesses = 0; 
+    wordArray = []; 
+    wordSlotArray = [];
+    guessedLetters = []; 
+    game.newGame(); 
+})
 
 //alpha letters 
 $('.letter').click(function(){
@@ -101,13 +164,15 @@ $('.letter').click(function(){
     }
     correctGuess = false; 
 
-    //check if we won 
-    checkForWin(); 
+    //check if we won
+    game.checkForWin();  
+    //checkForWin(); 
 
-    //disable button 
+    //disable letter button recently clicked 
     $(this).attr('disabled', 'disabled');
 
 });
+
 
 //functions 
 
@@ -124,7 +189,7 @@ function fetchWord(url){
         .then(function(data){
             console.log(`word data: ${data.word}`);
             word = data.word; 
-            fetchHint(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=${apiKey}`);
+            fetchHint(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`);
         })
         .catch(function(err){
             console.log(`error on fetchWord: ${err}`);
@@ -149,16 +214,12 @@ function fetchHint(url){
         });
 }
 
-function splitArray(str){
-    const array = str.split("");
-    return array; 
-}
 
 function updateGuessOutput(num){
     $('#guess-output').html(`Incorrect guesses: ${num}/6`);
 }
 
-
+/*
 function checkForWin(){
     let correctLetters = 0; 
     //if number of gueeses has been passed you lose
@@ -183,9 +244,18 @@ function checkForWin(){
     }
 
 }
-
+*/
 function updateImage(){
     currentImageNumber++ 
+    $pikachuImg.attr({
+        'src': `images/pika-hangman/pikachu-${currentImageNumber}.PNG`,
+        'alt': `pikachu-${currentImageNumber}`
+
+    });
+}
+
+function resetImage(){
+    currentImageNumber = 1; 
     $pikachuImg.attr({
         'src': `images/pika-hangman/pikachu-${currentImageNumber}.PNG`,
         'alt': `pikachu-${currentImageNumber}`
