@@ -2,14 +2,16 @@
 
 //retrieve elements
 const $wordSlotOutput = $('#word-container');
+const $winOutput = $('#win-output');
+const $loseOutput = $('#lose-output'); 
 //let wordSlot = ""; 
 let wordSlotArray = []; 
 
 //other variables:
-let word = "katrina";
+let word = "";
 let wordArray = []; 
 let guessedLetters = []; 
-let hint = "A girl that is simmering";
+let hint = "";
 let letter = "";
 let guesses = 0; 
 const guessLimit = 6;
@@ -18,16 +20,33 @@ let correctGuess = false;
 const $pikachuImg = $('#hangman-image');
 let currentImageNumber = 1; 
 
+let pikachuFrameHandler; 
+let currentAnimationImage = 0; 
+const maxImageNumber = 3; 
+let counter = 0; 
+let limit = 9;
+
+let animationComplete = false; 
+
+
+/*
 //generating random words and hints (definitions) using Wordnik API
 const apiKey = '1iq9ncc7hnq0r1io7gzrevu7wkfr7si0c2uwh9tetrtelhn2d';
 const fetchWordURL = `https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${apiKey}`;
 const fetchHintURL = `https://api.wordnik.com/v4/word.json/${word}/definitions?limit=1&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`;
+*/
 
-//hide win/lose pop-ups
+//local JSON file
+const fetchFile = "json/words.json";
+
 /*
+Upon loading:
+    - hide win and lose pop up
+*/
+
 $('#win-pop-up').hide();
 $('#lose-pop-up').hide();
-*/
+
 //objects
 
 class Game{
@@ -42,9 +61,13 @@ class Game{
             //lose -- display losing popup
             console.log("you lose");
             //$('#lose-pop-up').css('opacity', 1);
-            $('#lose-pop-up').show(); 
+            $('#lose-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
+            $('#lose-pop-up').show();
+
+           // $('#lose-pop-up').animate({opacity: 1}, 1000); 
             //disable all buttons 
             $('.letter').attr('disabled', 'disabled');
+            $('#alphabet-container').css('opacity', 0.5);
     
         }
         //check if correct word has been guessed 
@@ -55,63 +78,25 @@ class Game{
         }
     
         if(correctLetters == wordArray.length){
-            $('#win-pop-up').show(); 
+            $('#win-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
+            $('#win-pop-up').show();
+            //$('#win-pop-up').animate({opacity: 1}, 1000); 
             console.log("you win!");
             $('.letter').attr('disabled', 'disabled');
+            $('#alphabet-container').css('opacity', 0.5);
         }
         //return true or false 
 
     }
     //testing purposes
     newGame(){
-        //console.log(guesses);
-        $('.letter').removeAttr('disabled');
-        //set up game lines 
-        wordArray = word.split("");
-    
-        //set up letter slots
-        
-        for(let i = 0; i < wordArray.length; i++){
-        console.log("splitting array ");
-        console.log(`split array: ${wordArray[i]}`);
-        }
-        //make lines on HTML output word 
-        for(let i = 0; i < wordArray.length; i++){
-            wordSlotArray.push(`<p>_</p>`);    
-        }
-        $wordSlotOutput.html(wordSlotArray);
-        //set up all variables needed for word and hint
-        //display hint 
-        $('#hint-output').html(`Hint: ${hint}`); 
-        //display guess output 
-        updateGuessOutput(guesses);
-        resetImage(); 
-
-    }
-
-    //this works but not consistently 
-    /*
-    newGame(){
-        //fetch new word and hint -- store it 
-        //fetchWord(fetchWordURL);
         //enable all buttons
-        
-        
-        fetchWordHint().then(function(){
-            //console.log(guesses);
-            $('.letter').removeAttr('disabled');
-            //set up game lines 
+        fetchWordHint(fetchFile).then(function(){
             wordArray = word.split("");
-        
             //set up letter slots
-            
-            for(let i = 0; i < wordArray.length; i++){
-            console.log("splitting array ");
-            console.log(`split array: ${wordArray[i]}`);
-            }
             //make lines on HTML output word 
             for(let i = 0; i < wordArray.length; i++){
-                wordSlotArray.push(`___ `);    
+                wordSlotArray.push(`<p>_</p>`);    
             }
             $wordSlotOutput.html(wordSlotArray);
             //set up all variables needed for word and hint
@@ -120,44 +105,27 @@ class Game{
             //display guess output 
             updateGuessOutput(guesses);
             resetImage(); 
-            }).catch(function(e){
-            console.log(`error in newGame(): ${e}`);
-            });
-        
+        })
+        .catch(function(err){
+            console.log(`failed to set word and hint due to: ${err}`);
+        });
+ 
+    
+        pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
+        animateJiggly(); 
+
     }
-    */
 }
 //start a new game 
 const game = new Game(); 
+//console.log(randomNumber(6)); 
 
 $('#play-btn').click(function(){
     $('#start-pop-up').hide();
-
     //start a new game
     console.log("starting a new game");
-    //fetchWordHint(); 
-    game.newGame(); 
-    //fetchWord(fetchWordURL);
-    //put word into an array 
-
-    /*
-    wordArray = word.split(""); 
-    for(let i = 0; i < wordArray.length; i++){
-        console.log("splitting array ");
-        console.log(`split array: ${wordArray[i]}`);
-    }
-    //make lines on HTML output word 
-    for(let i = 0; i < wordArray.length; i++){
-        wordSlotArray.push(`___ `);
-        //$wordSlotOutput.append(`___ `);
     
-    }
-    $wordSlotOutput.html(wordSlotArray);
-    //display hint
-    $('#hint-output').html(`Hint: ${hint}`);
-    //display output 
-    updateGuessOutput(guesses);
-*/
+    game.newGame(); 
 
 });
 
@@ -199,12 +167,58 @@ $('.letter').click(function(){
 
     //check if we won
     game.checkForWin();  
-    //checkForWin(); 
 
     //disable letter button recently clicked 
     $(this).attr('disabled', 'disabled');
 
 });
+
+/*
+function fetchWordHint(file){
+    fetch(file)
+        .then(function(res){
+            console.log(`response: ${res.status}`);
+            if(res.ok){
+                return res.json();
+            }
+        })
+        .then(function(data){
+            console.log(`data recieved: ${data}`);
+
+            console.log(`word fetched: ${data[0].word}`);
+            console.log(`hint fetched: ${data[0].hint}`);
+            word = data[0].word;
+            hint = data[0].hint;
+        })
+        .catch(function(err){
+            console.log(`fetch error: ${err}`);
+        });
+}
+*/
+
+async function fetchWordHint(file){
+    data = await fetch(file)
+                    .then(function(res){
+                        console.log(`response: ${res.status}`);
+                        if(res.ok){
+                            return res.json();
+                        }
+                    })
+                    .catch(function(err){
+                         console.log(`fetch error: ${err}`);
+                    });
+
+    const arrayLength = data.length;
+    console.log(`array index: ${arrayLength}`); 
+
+    const index = Math.floor(Math.random()*arrayLength);
+
+    console.log(`word fetched: ${data[index].word}`);
+    console.log(`hint fetched: ${data[index].hint}`);
+    word = data[index].word;
+    hint = data[index].hint;
+
+}
 //works but not consistently 
 /*
 async function fetchWordHint(){
@@ -310,6 +324,12 @@ function checkForWin(){
     }
 }
 */
+/*
+function randomNumber(max){
+    return Math.floor(Math.random()*max);
+}
+*/
+
 function updateImage(){
     currentImageNumber++ 
     $pikachuImg.attr({
@@ -326,4 +346,47 @@ function resetImage(){
         'alt': `pikachu-${currentImageNumber}`
 
     });
+
+}
+
+function sleepAnimation(){
+    counter++;   
+    if(counter > limit){
+        currentAnimationImage = 0; 
+        counter = 0; 
+        $('.letter').removeAttr('disabled');
+        $('#alphabet-container').css('opacity', 1);
+        cancelAnimationFrame(pikachuFrameHandler);
+    }else{
+        if(currentAnimationImage <= maxImageNumber){
+            $pikachuImg.attr({
+                'src': `images/pika-hangman/pikachu-sleep-${currentAnimationImage}.PNG`,
+                'alt': `pikachu-sleep-${currentAnimationImage}`
+        
+            });
+           
+        }else{
+            $pikachuImg.attr({
+                'src': `images/pika-hangman/pikachu-1.PNG`,
+                'alt': `pikachu-sleep-${currentAnimationImage}`
+        
+            });
+            currentAnimationImage = 0; 
+        }
+        setTimeout(function(){
+            currentAnimationImage++;
+            pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
+
+        }, 150);
+    }
+}
+
+function animateJiggly(){
+    $("#angry-puff").animate({left: "-=12px"}, 1000);
+    $("#angry-puff").animate({left: "+=12px"}, 500);
+    for(let i = 0; i <= 10; i++){
+        $("#angry-puff").animate({left: "-=8px"}, 5);
+        $("#angry-puff").animate({left: "+=16px"}, 10);
+        $("#angry-puff").animate({left: "-=8px"}, 5);
+    }
 }
