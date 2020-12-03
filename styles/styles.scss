@@ -23,6 +23,7 @@ $pop_up_opacity: 0.75;
     width: $width;
     height: $height;
     border-radius: $rounded-corners;
+    border: 5px solid #73400d;
     background-color: $background-color;
     box-shadow: 4px 4px 8px grey;
     opacity: $pop_up_opacity;
@@ -67,7 +68,6 @@ h2 {
     justify-content: center;
 }
 
-
 #hangman-container { 
     display: flex;
     flex-direction: row;
@@ -76,16 +76,15 @@ h2 {
 #hangman-image {
     max-width: 50%;
     max-height: 90%;
-    margin-top: 5%;
+   // margin-top: 5%;
 }
 
 #angry-puff {
     position: relative;
     max-width: 80%;
     max-height: 100%;
-    margin-top: 27%;
+    margin-top: 12%;
 }
-
 
 //word and hint output
 #interaction-container{
@@ -99,6 +98,7 @@ h2 {
     #word-container {
         display: flex;
         flex: row;
+        margin-right: 10px;
     
         p{ 
             font-size: 75px;
@@ -125,7 +125,6 @@ h2 {
         opacity: 0.7;
     }
 
-    //alphabets
     #alphabet-container {
         display: flex;
         flex-wrap: wrap;
@@ -140,7 +139,6 @@ h2 {
     }
 }
 
-
 .letter {
     margin-left: 10px;
     margin-bottom: 10px;
@@ -149,12 +147,10 @@ h2 {
         width: 55px;
         box-shadow: 4px 4px 8px grey;
     }
-
 }
 
-
 #start-pop-up{
-    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, white);
+    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners,	#e6e6e6);
     position: fixed;
     overflow: hidden;
     text-align: center;
@@ -164,7 +160,6 @@ h2 {
     //display: none;
     z-index: 2;
 
-
     p, ul{
         text-align: left;
         margin-left: 15px;
@@ -172,26 +167,24 @@ h2 {
     }
 
     button{
-        @include pretty-button(white,  #33cc33,  #adebad);
+        @include pretty-button(white, 	#24a824,  #81e481);
         font-size: 30px;
         padding: 10px;
-        transition-duration: 0.3s;
         width: 20%;
         //margin-left: 40%;
     }
 
     button:hover{
-        background-color:  #29a329;
+        background-color: #28bd28;
     }
-
 }
 
 #win-pop-up{
     position: fixed;
-    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, lightgreen);
+    //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
+    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #e6e6e6);
     text-align: center;
     transform:translate(50%, 0%);
-    //display: none; 
     opacity: 1;
     z-index: 1;
 
@@ -206,21 +199,22 @@ h2 {
     }
 
     button{
-        @include pretty-button(white,  #33cc33,  #adebad);
+        @include pretty-button(white, 	#24a824,  #81e481);
         font-size: 30px;
+        transition-duration: 0.3s;
     }
 
     button:hover{
-        background-color:  #29a329;
+        background-color: #28bd28;
     }
 }
 
 #lose-pop-up{
     position: fixed;
-    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, lightpink);
+    //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
+    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #e6e6e6);
     text-align: center;
     transform:translate(50%, 0%);
-    //display: none; 
     opacity: 1;
     z-index: 1;
     
@@ -235,12 +229,38 @@ h2 {
     }
 
     button{
-        @include pretty-button(white,  #33cc33,  #adebad);
+        @include pretty-button(white, 	#24a824,  #81e481);
+        transition-duration: 0.3s;
         font-size: 30px;
     }
 
     button:hover{
-        background-color:  #29a329;
+        background-color: #28bd28;
+    }
+}
+
+#error-pop-up{
+    position: fixed;
+    @include pop-up-box($pop_up_width, 40%, $pop_up_corners, #ff4d4d);
+    text-align: center;
+    transform:translate(50%, 0%);
+    opacity: 1;
+    z-index: 1;
+
+    p {
+        margin-left: 15px;
+        font-size: 20px;
+
+    }
+
+    button{
+        @include pretty-button(white, 	#24a824,  #81e481);
+        transition-duration: 0.3s;
+        font-size: 30px;
+    }
+
+    button:hover{
+        background-color: #28bd28;
     }
 }
 

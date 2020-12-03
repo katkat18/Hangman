@@ -4,11 +4,11 @@
 const $wordSlotOutput = $('#word-container');
 const $pikachuImg = $('#hangman-image');
 
-let wordSlotArray = []; 
-
 //other variables:
+//variables to handle a word and it's hint 
 let word = "";
 let wordArray = []; 
+let wordSlotArray = []; 
 let guessedLetters = []; 
 let hint = "";
 let letter = "";
@@ -16,9 +16,8 @@ let guesses = 0;
 const guessLimit = 6;
 let prevIndex = -1; 
 
-
+//handling of images and their animations
 let currentImageNumber = 1; 
-
 let pikachuFrameHandler; 
 let currentAnimationImage = 1; 
 const maxImageNumber = 3; 
@@ -28,94 +27,127 @@ let limit = 10;
 //local JSON file
 const fetchFile = "json/words.json";
 
-$('#win-pop-up').hide();
-$('#lose-pop-up').hide();
+/*Game object
+has methods:
+    - checkForWin()
+        - checks if the player has won 
+        - win condition:
+            - if the word was guessed withing the guess limit
+            - if all the letters in the word has been guessed
+        - displays appropriate pop ups based on game result 
 
-//game object
+    - newGame()
+        - starts a new game
+        - retrieves a new word and hint 
+        - resets all game data and page content 
+*/ 
 class Game{
     checkForWin(){
         let correctLetters = 0; 
+
         //check if they surpassed that allotted attempts 
-        if(guesses >= 6){
-            //lose -- display losing popup
+        if(guesses >= guessLimit){
+            //lose -- display lose popup
             console.log("you lose");
-            //$('#lose-pop-up').css('opacity', 1);
             $('#lose-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
             $('#lose-pop-up').show();
 
-           // $('#lose-pop-up').animate({opacity: 1}, 1000); 
             //disable all buttons 
             $('.letter').attr('disabled', 'disabled');
             $('#alphabet-container').css('opacity', 0.5);
-    
         }
+
         //check if correct word has been guessed 
         for(let i = 0; i < wordArray.length; i++){
             if(guessedLetters.includes(wordArray[i])){
                 correctLetters++;
             }
         }
-    
+
         if(correctLetters == wordArray.length){
+            //win -- display win popup
+            console.log("you win!");
             $('#win-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
             $('#win-pop-up').show();
-            //$('#win-pop-up').animate({opacity: 1}, 1000); 
-            console.log("you win!");
+
+            //disable all buttons 
             $('.letter').attr('disabled', 'disabled');
             $('#alphabet-container').css('opacity', 0.5);
         }
-        //return true or false 
-
     }
-    //testing purposes
+
     newGame(){
-        //enable all buttons
+        //reset variables
+        guesses = 0; 
+        wordArray = []; 
+        wordSlotArray = [];
+        guessedLetters = []; 
+
+        //fetch new word and hint
         fetchWordHint(fetchFile).then(function(){
+            //put fetched word into an array 
             wordArray = word.split("");
+
             //set up letter slots
-            //make lines on HTML output word 
             for(let i = 0; i < wordArray.length; i++){
                 wordSlotArray.push(`<p>_</p>`);    
             }
+
             $wordSlotOutput.html(wordSlotArray);
-            //set up all variables needed for word and hint
+
             //display hint 
             $('#hint-output').html(`Hint: ${hint}`); 
-            //display guess output 
-            updateGuessOutput(guesses);
+
+            //display guess output and reset image to original state 
+            updateIncorrectOutput(guesses);
             resetImage(); 
         })
         .catch(function(err){
             console.log(`failed to set word and hint due to: ${err}`);
+            $('#error-output').html(`error: ${err}`);
+            $('#error-pop-up').show(); 
         });
 
+        //animate Pikachu and Jiggypuff 
         pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
         animateJiggly(); 
     }
 }
+
+//initial setup of the game
+$('#win-pop-up').hide();
+$('#lose-pop-up').hide();
+$('#error-pop-up').hide(); 
+
 //start a new game 
 const game = new Game(); 
 
+//event listeners
+
+//button for first time play - start a new game
 $('#play-btn').click(function(){
     $('#start-pop-up').hide();
     //start a new game
     console.log("starting a new game!");
-
-    
     game.newGame(); 
 
 });
 
+/*button for playing again
+    - resets all values
+    - starts a new game 
+*/
 $('.reset-btn').click(function(){
     $(this).parent().hide(); 
-    guesses = 0; 
-    wordArray = []; 
-    wordSlotArray = [];
-    guessedLetters = []; 
     game.newGame(); 
 })
 
-//alpha letters 
+/*button for letters
+each time a button is clicked:
+    - check if the letter matches any letters from the word
+    - if it matches, display it on the screen
+    - else add to the guesses count and update the hangman image
+*/ 
 $('.letter').click(function(){
     //retrieve values from buttons 
     let correctGuess = false; 
@@ -138,7 +170,7 @@ $('.letter').click(function(){
     //wrong
     if(!correctGuess){
         guesses++
-        updateGuessOutput(guesses); 
+        updateIncorrectOutput(guesses); 
         updateImage(); 
     }
     correctGuess = false; 
@@ -151,29 +183,19 @@ $('.letter').click(function(){
 
 });
 
-/*
-function fetchWordHint(file){
-    fetch(file)
-        .then(function(res){
-            console.log(`response: ${res.status}`);
-            if(res.ok){
-                return res.json();
-            }
-        })
-        .then(function(data){
-            console.log(`data recieved: ${data}`);
+//functions
 
-            console.log(`word fetched: ${data[0].word}`);
-            console.log(`hint fetched: ${data[0].hint}`);
-            word = data[0].word;
-            hint = data[0].hint;
-        })
-        .catch(function(err){
-            console.log(`fetch error: ${err}`);
-        });
-}
+/* 
+function to fetch a word and it's hint
+input: a path to the JSON file (string)
+
+Math.random function credit to:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+
+async function structure
+https://dev.to/shoupn/javascript-fetch-api-and-using-asyncawait-47mp
+
 */
-
 async function fetchWordHint(file){
     data = await fetch(file)
                     .then(function(res){
@@ -184,6 +206,8 @@ async function fetchWordHint(file){
                     })
                     .catch(function(err){
                          console.log(`fetch error: ${err}`);
+                         $('#error-output').html(`fetch error: ${err}`);
+                         $('#error-pop-up').show(); 
                     });
 
     const arrayLength = data.length;
@@ -205,117 +229,18 @@ async function fetchWordHint(file){
     hint = data[currIndex].hint;
 
 }
-//works but not consistently 
+
 /*
-async function fetchWordHint(){
-    word = await fetch(fetchWordURL)
-                    .then(function(res){
-                        console.log(`word res: ${res}`);
-                        if(res.ok){
-                            //do something
-                            return res.json(); 
-                         }
-                    })
-                    .then(function(data){
-                        console.log(`word data: ${data.word}`);
-                        return data.word; 
-    
-                    })
-                    .catch(function(err){
-                        console.log(`error on fetchWord: ${err}`);
-                    });
-    console.log(`new word: ${word}`);
-    hint = await fetch(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`)
-                    .then(function(res){
-                        console.log(`hint res: ${res}`);
-                        if(res.ok){
-                            return res.json();
-                        }
-                    })
-                    .then(function(data){
-                        console.log(`hint data: ${data[2].text}`);
-                        return data[2].text; 
-                    })
-                    .catch(function(err){
-                        console.log(`error fetchHint: ${err}`)
-                    });
-    console.log(`new hint: ${hint}`); 
-}
-
-*/
-//functions 
-/*
-//return a random word 
-function fetchWord(url){
-    fetch(url)
-        .then(function(res){
-            console.log(`word res: ${res}`);
-            if(res.ok){
-                //do something
-                return res.json(); 
-            }
-        })
-        .then(function(data){
-            console.log(`word data: ${data.word}`);
-            word = data.word; 
-            fetchHint(`https://api.wordnik.com/v4/word.json/${word}/definitions?limit=3&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`);
-        })
-        .catch(function(err){
-            console.log(`error on fetchWord: ${err}`);
-        });
-}
-
-//given a word (refer to function above), return a definition of that word
-function fetchHint(url){
-    fetch(url)
-        .then(function(res){
-            console.log(`hint res: ${res}`);
-            if(res.ok){
-                return res.json();
-            }
-        })
-        .then(function(data){
-            console.log(`hint data: ${data[2].text}`);
-            hint = data[2].text; 
-        })
-        .catch(function(err){
-            console.log(`error fetchHint: ${err}`)
-        });
-}
-*/
-
-function updateGuessOutput(num){
+function that renders the number of incorrect guesses
+input: number of guesses so far
+*/ 
+function updateIncorrectOutput(num){
     $('#guess-output').html(`Incorrect guesses: ${num}/6`);
 }
 
 /*
-function checkForWin(){
-    let correctLetters = 0; 
-    //if number of gueeses has been passed you lose
-    if(guesses >= 6){
-        //lose -- display losing popup
-        console.log("you lose");
-        //$('#lose-pop-up').css('display', 'block');
-        $('#lose-pop-up').css('opacity', 1);
-    }
- 
-    //check to see if word has been guessed 
-    for(let i = 0; i < wordArray.length; i++){
-        if(guessedLetters.includes(wordArray[i])){
-            correctLetters++;
-        }
-    }
-    if(correctLetters == wordArray.length){
-        console.log("you win!");
-    }
-}
-*/
-/*
-function randomNumber(max){
-    return Math.floor(Math.random()*max);
-}
-*/
-
+function that cycles through the hangman images
+*/ 
 function updateImage(){
     currentImageNumber++ 
     $pikachuImg.attr({
@@ -325,6 +250,9 @@ function updateImage(){
     });
 }
 
+/*
+function that resets the hangman image back to it's initial state
+*/ 
 function resetImage(){
     currentImageNumber = 1; 
     $pikachuImg.attr({
@@ -335,6 +263,9 @@ function resetImage(){
 
 }
 
+/*
+function that animates pikachu sleeping 
+*/ 
 function sleepAnimation(){
     counter++;   
     if(counter > limit){
@@ -368,6 +299,9 @@ function sleepAnimation(){
     }
 }
 
+/*
+function that animates Jigglypuff's anger
+*/ 
 function animateJiggly(){
     $("#angry-puff").animate({left: "-=12px"}, 1000);
     $("#angry-puff").animate({left: "+=12px"}, 500);
