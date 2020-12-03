@@ -76,6 +76,7 @@ h2 {
 #hangman-image {
     max-width: 50%;
     max-height: 90%;
+    margin-top: 5%;
 }
 
 #angry-puff {
@@ -123,21 +124,22 @@ h2 {
         margin-bottom: 10px;
         opacity: 0.7;
     }
+
+    //alphabets
+    #alphabet-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 95%;
+        padding: 2%;
+        border-radius: 25px;
+        background-color: $letter_bank;
+        box-sizing: border-box;
+        box-shadow: 4px 4px 8px grey;
+        opacity: 0.5;
+    }
 }
 
-//alphabets
-#alphabet-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 95%;
-    padding: 2%;
-    border-radius: 25px;
-    background-color: $letter_bank;
-    box-sizing: border-box;
-    box-shadow: 4px 4px 8px grey;
-    opacity: 0.5;
-}
 
 .letter {
     margin-left: 10px;
@@ -198,6 +200,11 @@ h2 {
         font-size: 20px;
     }
 
+    img{
+        max-width: 50%;
+        max-height: 50%;
+    }
+
     button{
         @include pretty-button(white,  #33cc33,  #adebad);
         font-size: 30px;
@@ -222,28 +229,9 @@ h2 {
         font-size: 20px;
     }
 
-    button{
-        @include pretty-button(white,  #33cc33,  #adebad);
-        font-size: 30px;
-    }
-
-    button:hover{
-        background-color:  #29a329;
-    }
-}
-
-#reset-pop-up{
-    position: fixed;
-    @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, lightpink);
-    text-align: center;
-    transform:translate(50%, 0%);
-    //display: none; 
-    opacity: 0;
-    z-index: 1;
-    
-    p {
-        margin-left: 15px;
-        font-size: 20px;
+    img {
+        max-width: 50%;
+        max-height: 50%;
     }
 
     button{
@@ -255,3 +243,4 @@ h2 {
         background-color:  #29a329;
     }
 }
+

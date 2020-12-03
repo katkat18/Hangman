@@ -2,9 +2,8 @@
 
 //retrieve elements
 const $wordSlotOutput = $('#word-container');
-const $winOutput = $('#win-output');
-const $loseOutput = $('#lose-output'); 
-//let wordSlot = ""; 
+const $pikachuImg = $('#hangman-image');
+
 let wordSlotArray = []; 
 
 //other variables:
@@ -15,45 +14,25 @@ let hint = "";
 let letter = "";
 let guesses = 0; 
 const guessLimit = 6;
-let correctGuess = false; 
+let prevIndex = -1; 
 
-const $pikachuImg = $('#hangman-image');
+
 let currentImageNumber = 1; 
 
 let pikachuFrameHandler; 
-let currentAnimationImage = 0; 
+let currentAnimationImage = 1; 
 const maxImageNumber = 3; 
 let counter = 0; 
-let limit = 9;
-
-let animationComplete = false; 
-
-
-/*
-//generating random words and hints (definitions) using Wordnik API
-const apiKey = '1iq9ncc7hnq0r1io7gzrevu7wkfr7si0c2uwh9tetrtelhn2d';
-const fetchWordURL = `https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${apiKey}`;
-const fetchHintURL = `https://api.wordnik.com/v4/word.json/${word}/definitions?limit=1&includeRelated=false&useCanonical=false&includeTags=false&api_key=${apiKey}`;
-*/
+let limit = 10;
 
 //local JSON file
 const fetchFile = "json/words.json";
 
-/*
-Upon loading:
-    - hide win and lose pop up
-*/
-
 $('#win-pop-up').hide();
 $('#lose-pop-up').hide();
 
-//objects
-
+//game object
 class Game{
-    constructor(){
-        this.isActive = true;
-    }
-
     checkForWin(){
         let correctLetters = 0; 
         //check if they surpassed that allotted attempts 
@@ -109,21 +88,19 @@ class Game{
         .catch(function(err){
             console.log(`failed to set word and hint due to: ${err}`);
         });
- 
-    
+
         pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
         animateJiggly(); 
-
     }
 }
 //start a new game 
 const game = new Game(); 
-//console.log(randomNumber(6)); 
 
 $('#play-btn').click(function(){
     $('#start-pop-up').hide();
     //start a new game
-    console.log("starting a new game");
+    console.log("starting a new game!");
+
     
     game.newGame(); 
 
@@ -141,6 +118,7 @@ $('.reset-btn').click(function(){
 //alpha letters 
 $('.letter').click(function(){
     //retrieve values from buttons 
+    let correctGuess = false; 
     console.log(`this is value: ${$(this).val()}`);
     letter = $(this).val(); 
 
@@ -209,14 +187,22 @@ async function fetchWordHint(file){
                     });
 
     const arrayLength = data.length;
-    console.log(`array index: ${arrayLength}`); 
+    console.log(`total array content: ${arrayLength}`); 
 
-    const index = Math.floor(Math.random()*arrayLength);
 
-    console.log(`word fetched: ${data[index].word}`);
-    console.log(`hint fetched: ${data[index].hint}`);
-    word = data[index].word;
-    hint = data[index].hint;
+    const currIndex = Math.floor(Math.random()*arrayLength);
+    console.log(`currIndex: ${currIndex}`);
+    console.log(`prevIndex: ${prevIndex}`);
+
+    while(currIndex == prevIndex){
+       currIndex =  Math.floor(Math.random()*arrayLength);
+    }
+
+    console.log(`word fetched: ${data[currIndex].word}`);
+    console.log(`hint fetched: ${data[currIndex].hint}`);
+    prevIndex = currIndex;
+    word = data[currIndex].word;
+    hint = data[currIndex].hint;
 
 }
 //works but not consistently 
@@ -352,7 +338,7 @@ function resetImage(){
 function sleepAnimation(){
     counter++;   
     if(counter > limit){
-        currentAnimationImage = 0; 
+        currentAnimationImage = 1; 
         counter = 0; 
         $('.letter').removeAttr('disabled');
         $('#alphabet-container').css('opacity', 1);
@@ -368,12 +354,13 @@ function sleepAnimation(){
         }else{
             $pikachuImg.attr({
                 'src': `images/pika-hangman/pikachu-1.PNG`,
-                'alt': `pikachu-sleep-${currentAnimationImage}`
+                'alt': `pikachu-1`
         
             });
-            currentAnimationImage = 0; 
+            currentAnimationImage = 1; 
         }
         setTimeout(function(){
+            //console.log(currentAnimationImage);
             currentAnimationImage++;
             pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
 

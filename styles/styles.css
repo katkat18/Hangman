@@ -40,6 +40,7 @@ h2 {
 #hangman-image {
   max-width: 50%;
   max-height: 90%;
+  margin-top: 5%;
 }
 
 #angry-puff {
@@ -86,7 +87,7 @@ h2 {
   opacity: 0.7;
 }
 
-#alphabet-container {
+#interaction-container #alphabet-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -165,6 +166,11 @@ h2 {
   font-size: 20px;
 }
 
+#win-pop-up img {
+  max-width: 50%;
+  max-height: 50%;
+}
+
 #win-pop-up button {
   color: white;
   background-color: #33cc33;
@@ -197,6 +203,11 @@ h2 {
   font-size: 20px;
 }
 
+#lose-pop-up img {
+  max-width: 50%;
+  max-height: 50%;
+}
+
 #lose-pop-up button {
   color: white;
   background-color: #33cc33;
@@ -207,37 +218,5 @@ h2 {
 }
 
 #lose-pop-up button:hover {
-  background-color: #29a329;
-}
-
-#reset-pop-up {
-  position: fixed;
-  width: 50%;
-  height: 65%;
-  border-radius: 25px;
-  background-color: lightpink;
-  box-shadow: 4px 4px 8px grey;
-  opacity: 0.75;
-  text-align: center;
-  transform: translate(50%, 0%);
-  opacity: 0;
-  z-index: 1;
-}
-
-#reset-pop-up p {
-  margin-left: 15px;
-  font-size: 20px;
-}
-
-#reset-pop-up button {
-  color: white;
-  background-color: #33cc33;
-  border: 5px solid #adebad;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 30px;
-}
-
-#reset-pop-up button:hover {
   background-color: #29a329;
 }
