@@ -48,7 +48,6 @@ class Game{
         //check if they surpassed that allotted attempts 
         if(guesses >= guessLimit){
             //lose -- display lose popup
-            console.log("you lose");
             $('#lose-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
             $('#lose-pop-up').show();
 
@@ -66,7 +65,6 @@ class Game{
 
         if(correctLetters == wordArray.length){
             //win -- display win popup
-            console.log("you win!");
             $('#win-output').html(`The word was: <span style="color: red;"> ${word}</span>`);
             $('#win-pop-up').show();
 
@@ -103,7 +101,6 @@ class Game{
             resetImage(); 
         })
         .catch(function(err){
-            console.log(`failed to set word and hint due to: ${err}`);
             $('#error-output').html(`error: ${err}`);
             $('#error-pop-up').show(); 
         });
@@ -127,8 +124,6 @@ const game = new Game();
 //button for first time play - start a new game
 $('#play-btn').click(function(){
     $('#start-pop-up').hide();
-    //start a new game
-    console.log("starting a new game!");
     game.newGame(); 
 
 });
@@ -151,7 +146,6 @@ each time a button is clicked:
 $('.letter').click(function(){
     //retrieve values from buttons 
     let correctGuess = false; 
-    console.log(`this is value: ${$(this).val()}`);
     letter = $(this).val(); 
 
     //add to guessed letters
@@ -199,31 +193,23 @@ https://dev.to/shoupn/javascript-fetch-api-and-using-asyncawait-47mp
 async function fetchWordHint(file){
     data = await fetch(file)
                     .then(function(res){
-                        console.log(`response: ${res.status}`);
                         if(res.ok){
                             return res.json();
                         }
                     })
                     .catch(function(err){
-                         console.log(`fetch error: ${err}`);
                          $('#error-output').html(`fetch error: ${err}`);
                          $('#error-pop-up').show(); 
                     });
 
     const arrayLength = data.length;
-    console.log(`total array content: ${arrayLength}`); 
 
-
-    const currIndex = Math.floor(Math.random()*arrayLength);
-    console.log(`currIndex: ${currIndex}`);
-    console.log(`prevIndex: ${prevIndex}`);
+    let currIndex = Math.floor(Math.random()*arrayLength);
 
     while(currIndex == prevIndex){
        currIndex =  Math.floor(Math.random()*arrayLength);
     }
 
-    console.log(`word fetched: ${data[currIndex].word}`);
-    console.log(`hint fetched: ${data[currIndex].hint}`);
     prevIndex = currIndex;
     word = data[currIndex].word;
     hint = data[currIndex].hint;
@@ -243,10 +229,10 @@ function that cycles through the hangman images
 */ 
 function updateImage(){
     currentImageNumber++ 
+
     $pikachuImg.attr({
         'src': `images/pika-hangman/pikachu-${currentImageNumber}.PNG`,
         'alt': `pikachu-${currentImageNumber}`
-
     });
 }
 
@@ -255,12 +241,11 @@ function that resets the hangman image back to it's initial state
 */ 
 function resetImage(){
     currentImageNumber = 1; 
+
     $pikachuImg.attr({
         'src': `images/pika-hangman/pikachu-${currentImageNumber}.PNG`,
         'alt': `pikachu-${currentImageNumber}`
-
     });
-
 }
 
 /*
@@ -279,22 +264,18 @@ function sleepAnimation(){
             $pikachuImg.attr({
                 'src': `images/pika-hangman/pikachu-sleep-${currentAnimationImage}.PNG`,
                 'alt': `pikachu-sleep-${currentAnimationImage}`
-        
             });
            
         }else{
             $pikachuImg.attr({
                 'src': `images/pika-hangman/pikachu-1.PNG`,
                 'alt': `pikachu-1`
-        
             });
             currentAnimationImage = 1; 
         }
         setTimeout(function(){
-            //console.log(currentAnimationImage);
             currentAnimationImage++;
             pikachuFrameHandler = requestAnimationFrame(sleepAnimation);
-
         }, 150);
     }
 }
