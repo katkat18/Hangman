@@ -580,12 +580,13 @@ h2 {
   #hangman-container #hangman-image {
     max-width: 100%;
     height: auto;
-    margin-top: 30%;
+    margin-top: 40%;
     z-index: 1;
   }
   #hangman-container #angry-puff {
     max-width: 100%;
     height: auto;
+    margin-top: 100%;
     z-index: 1;
   }
   #win-pop-up {
