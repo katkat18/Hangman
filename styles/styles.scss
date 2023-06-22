@@ -279,238 +279,21 @@ h2 {
 
 //mobile
 @media only screen and (max-width: $mobile) {
-    #start-pop-up{
-        @include pop-up-box($pop_up_width, $pop_up_height_mobile, $pop_up_corners,	#e6e6e6);
-        //position: fixed;
-        overflow: auto;
-        //text-align: center;
-    
-        transform:translate(50%, 0%);
-        opacity: 1;
-        //display: none;
-        z-index: 2;
-    
-        p, ul{
-            text-align: left;
-            margin-left: 15px;
-            font-size: 15px;
-        }
 
-        ul {
-            list-style: inside;
-            padding-left: 0;
-        }
-    
-        button{
-            @include pretty-button(white, 	#24a824,  #81e481);
-            font-size: 22.5px;
-            padding: 7.5px;
-            width: 50%;
-            margin: 15%;
-            //margin-left: 40%;
-        }
-    
-        button:hover{
-            background-color: #28bd28;
-        }
-    }
-
-    //word and hint output
-    #interaction-container{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        bottom: 2.5%;
-        z-index: 1;
-
-        #word-container {
-            display: flex;
-            flex: row;
-            margin-right: 10px;
-            margin-bottom: 30%;
-        
-            p{ 
-                font-size: 55px;
-                color: palegoldenrod;
-                margin-left: 10px;
-            }
-        }
-        
-        #hint-output{
-            font-size: 18px;
-            font-weight: bold;
-            color: red;
-            margin-bottom: 15px;
-        
-        }
-        
-        #guess-output{
-            font-size: 22.5px;
-            background-color: #ff9999;
-            padding: 2.25px;
-            border-radius: 7.5px;
-            box-shadow: 3px 3px 6px grey;
-            margin-bottom: 7.5px;
-            opacity: 0.7;
-        }
-
-        #alphabet-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 95%;
-            padding: 2%;
-            border-radius: 25px;
-            background-color: $letter_bank;
-            box-sizing: border-box;
-            box-shadow: 3px 3px 6px grey;
-            opacity: 0.5;
-
-        }
-        .letter {
-            margin-left: 10px;
-            margin-bottom: 10px;
-        
-            img{
-                width: 30px;
-                box-shadow: 3px 3px 6px grey;
-            }
-        }
-    }
-
-    #hangman-container { 
-        display: flex;
-        flex-direction: row;
-        z-index: 0;
-    
-        #hangman-image {
-            max-width: 100%;
-            height: 100%;
-            margin-top: 30%;
-            z-index: 1;
-        }
-        
-        #angry-puff {
-            max-width: 100%;
-            max-height: 100%;
-            margin-top: 160%;
-            z-index: 1;
-        }
-    }
-
-    #win-pop-up{
-        overflow: auto;
-        position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
-        @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
-        text-align: center;
-        transform:translate(50%, 0%);
-        opacity: 1;
-        z-index: 2;
-    
-        p {
-            margin-left: 15px;
-            font-size: 15px;
-        }
-    
-        img{
-            max-width: 50%;
-            max-height: 50%;
-        }
-    
-        button{
-            @include pretty-button(white, 	#24a824,  #81e481);
-            font-size: 18px;
-            width: 50%;
-            margin: 5%;
-            transition-duration: 0.3s;
-        }
-    
-        button:hover{
-            background-color: #28bd28;
-        }
-    }
-
-    #lose-pop-up{
-        position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
-        @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
-        text-align: center;
-        transform:translate(50%, 0%);
-        opacity: 1;
-        z-index: 2;
-        overflow: auto;
-        
-        p {
-            margin-left: 15px;
-            font-size: 15px;
-        }
-    
-        img {
-            max-width: 50%;
-            max-height: 50%;
-        }
-    
-        button{
-            @include pretty-button(white, 	#24a824,  #81e481);
-            font-size: 18px;
-            width: 50%;
-            margin: 5%;
-            transition-duration: 0.3s;
-
-        }
-    
-        button:hover{
-            background-color: #28bd28;
-        }
-    }
-
-    #error-pop-up{
-        position: fixed;
-        @include pop-up-box($pop_up_width, 35%, $pop_up_corners, #ff4d4d);
-        text-align: center;
-        transform:translate(50%, 0%);
-        opacity: 1;
-        z-index: 2;
-    
-        p {
-            margin-left: 15px;
-            font-size: 15px;
-    
-        }
-    
-        button{
-            @include pretty-button(white, 	#24a824,  #81e481);
-            font-size: 18px;
-            width: 50%;
-            margin: 5%;
-            transition-duration: 0.3s;
-        }
-    
-        button:hover{
-            background-color: #28bd28;
-        }
-    }
 }
 
 
 
 //tablet
 @media only screen and (min-width: $tablet) {
-    #start-pop-up{
+    #start-pop-up {
         @include pop-up-box($pop_up_width, $pop_up_height_mobile, $pop_up_corners,	#e6e6e6);
-        //position: fixed;
         overflow: auto;
-        //text-align: center;
-    
         transform:translate(50%, 0%);
         opacity: 1;
-        //display: none;
         z-index: 2;
     
-        p, ul{
+        p, ul {
             text-align: left;
             margin-left: 15px;
             font-size: 15px;
@@ -521,7 +304,7 @@ h2 {
             padding-left: 0;
         }
     
-        button{
+        button {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 22.5px;
             padding: 7.5px;
@@ -530,46 +313,29 @@ h2 {
             //margin-left: 40%;
         }
     
-        button:hover{
+        button:hover {
             background-color: #28bd28;
         }
     }
 
     //word and hint output
-    #interaction-container{
+    #interaction-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        //margin-top: 20%;
-        //bottom: 2.5%;
         bottom: 0;
         z-index: 1;
         position: sticky;
-
-        /*
-        #word-container {
-            display: flex;
-            flex: row;
-            margin-right: 10px;
-            margin-bottom: 30%;
         
-            p{ 
-                font-size: 55px;
-                color: palegoldenrod;
-                margin-left: 10px;
-            }
-        }*/
-        
-        #hint-output{
+        #hint-output {
             font-size: 18px;
             font-weight: bold;
             color: red;
             margin-bottom: 15px;
-        
         }
         
-        #guess-output{
+        #guess-output {
             font-size: 22.5px;
             //change back later
             background-color: green;
@@ -595,11 +361,12 @@ h2 {
             max-height: 50%;
 
         }
+
         .letter {
             margin-left: 10px;
             margin-bottom: 10px;
         
-            img{
+            img {
                 width: 30px;
                 box-shadow: 3px 3px 6px grey;
             }
@@ -612,9 +379,11 @@ h2 {
         align-items: center;
         //position: sticky;
         z-index: 1;
+
         #image-container {
             display: flex;
             flex-direction: row;
+
             #hangman-image {
                 max-width: 100%;
                 height: auto;
@@ -638,7 +407,7 @@ h2 {
             //margin-right: 10px;
             //margin-bottom: 30%;
         
-            p{ 
+            p { 
                 font-size: 55px;
                 color: palegoldenrod;
                 margin-left: 10px;
@@ -646,7 +415,7 @@ h2 {
         }
     }
 
-    #win-pop-up{
+    #win-pop-up {
         overflow: auto;
         position: fixed;
         //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
@@ -661,12 +430,12 @@ h2 {
             font-size: 15px;
         }
     
-        img{
+        img {
             max-width: 50%;
             max-height: 50%;
         }
     
-        button{
+        button {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 18px;
             width: 50%;
@@ -674,12 +443,12 @@ h2 {
             transition-duration: 0.3s;
         }
     
-        button:hover{
+        button:hover {
             background-color: #28bd28;
         }
     }
 
-    #lose-pop-up{
+    #lose-pop-up {
         position: fixed;
         //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
         @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
@@ -699,16 +468,15 @@ h2 {
             max-height: 50%;
         }
     
-        button{
+        button {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 18px;
             width: 50%;
             margin: 5%;
             transition-duration: 0.3s;
-
         }
     
-        button:hover{
+        button:hover {
             background-color: #28bd28;
         }
     }
