@@ -82,7 +82,7 @@ h2 {
 
 #interaction-container #guess-output {
   font-size: 30px;
-  background-color: green;
+  background-color: #ff9999;
   padding: 3px;
   border-radius: 10px;
   box-shadow: 4px 4px 8px grey;
@@ -319,7 +319,7 @@ h2 {
   }
   #interaction-container #guess-output {
     font-size: 17px;
-    background-color: pink;
+    background-color: #ff9999;
     padding: 2.25px;
     border-radius: 10px;
     box-shadow: 2px 2px 4px grey;
@@ -537,9 +537,9 @@ h2 {
   }
   #interaction-container #guess-output {
     font-size: 22.5px;
-    background-color: green;
+    background-color: #ff9999;
     padding: 2.25px;
-    border-radius: 7.5px;
+    border-radius: 10px;
     box-shadow: 3px 3px 6px grey;
     margin-bottom: 7.5px;
     opacity: 0.7;
@@ -755,9 +755,9 @@ h2 {
   }
   #interaction-container #guess-output {
     font-size: 22.5px;
-    background-color: skyblue;
+    background-color: #ff9999;
     padding: 2.25px;
-    border-radius: 7.5px;
+    border-radius: 10px;
     box-shadow: 3px 3px 6px grey;
     margin-bottom: 7.5px;
     opacity: 0.7;
@@ -951,7 +951,7 @@ h2 {
     padding: 10px;
     font-size: 22.5px;
     padding: 7.5px;
-    width: 50%;
+    width: 30%;
     margin: 15%;
   }
   #start-pop-up button:hover {
@@ -974,9 +974,9 @@ h2 {
   }
   #interaction-container #guess-output {
     font-size: 22.5px;
-    background-color: orange;
+    background-color: #ff9999;
     padding: 2.25px;
-    border-radius: 7.5px;
+    border-radius: 10px;
     box-shadow: 3px 3px 6px grey;
     margin-bottom: 7.5px;
     opacity: 0.7;
@@ -1061,7 +1061,7 @@ h2 {
     border-radius: 8px;
     padding: 10px;
     font-size: 18px;
-    width: 50%;
+    width: 30%;
     margin: 5%;
     transition-duration: 0.3s;
   }
@@ -1098,7 +1098,7 @@ h2 {
     border-radius: 8px;
     padding: 10px;
     font-size: 18px;
-    width: 50%;
+    width: 30%;
     margin: 5%;
     transition-duration: 0.3s;
   }
@@ -1130,7 +1130,7 @@ h2 {
     border-radius: 8px;
     padding: 10px;
     font-size: 18px;
-    width: 50%;
+    width: 30%;
     margin: 5%;
     transition-duration: 0.3s;
   }

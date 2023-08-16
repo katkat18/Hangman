@@ -10,9 +10,8 @@
 }
 
 //SASS variables:
-//$primary_pink: #ff9999;
-$primary_pink: green;
-//$primary_pink: red;
+$primary_pink: #ff9999;
+$primary_green: green;
 
 $letter_bank:  palegoldenrod;
 
@@ -48,6 +47,7 @@ $desktop: 992px;
     border: 5px solid $border-color;
     border-radius: 8px;
     padding: 10px;
+    
 }
 
 //common styling 
@@ -59,13 +59,12 @@ html, body {
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    //opacity: 0.5;
 }
 
 h1 {
     text-align: center;
     color: white;
-    text-shadow: 4px 4px $primary_pink;
+    text-shadow: 4px 4px $primary_green;
     font-family: 'Pokemon', Fallback, 'Courier New', Courier, monospace;
 }
 
@@ -184,7 +183,6 @@ h2 {
         font-size: 30px;
         padding: 10px;
         width: 50%;
-        //margin-left: 40%;
     }
 
     button:hover{
@@ -194,7 +192,6 @@ h2 {
 
 #win-pop-up{
     position: fixed;
-    //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
     @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
     text-align: center;
     transform:translate(50%, 0%);
@@ -224,7 +221,6 @@ h2 {
 
 #lose-pop-up{
     position: fixed;
-    //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
     @include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #e6e6e6);
     text-align: center;
     transform:translate(50%, 0%);
@@ -307,7 +303,6 @@ h2 {
             padding: 7.5px;
             width: 50%;
             margin: 15%;
-            //margin-left: 40%;
         }
 
         button:hover {
@@ -334,8 +329,7 @@ h2 {
         
         #guess-output {
             font-size: 17px;
-            //change back later
-            background-color: pink;
+            background-color: $primary_pink;
             padding: 2.25px;
             border-radius: 10px;
             box-shadow: 2px 2px 4px grey;
@@ -390,7 +384,6 @@ h2 {
             #angry-puff {
                 max-width: 100%;
                 height: auto;
-                //margin-top: -25px;
             }
         }
         #word-container {
@@ -408,7 +401,6 @@ h2 {
     #win-pop-up {
         overflow: auto;
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
         @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -440,7 +432,6 @@ h2 {
 
     #lose-pop-up {
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
         @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -500,8 +491,6 @@ h2 {
 
 }
 
-
-
 //tablet
 @media only screen and (min-width: $tablet) {
     #start-pop-up {
@@ -528,7 +517,6 @@ h2 {
             padding: 7.5px;
             width: 50%;
             margin: 15%;
-            //margin-left: 40%;
         }
     
         button:hover {
@@ -555,10 +543,9 @@ h2 {
         
         #guess-output {
             font-size: 22.5px;
-            //change back later
-            background-color: green;
+            background-color: $primary_pink;
             padding: 2.25px;
-            border-radius: 7.5px;
+            border-radius: 10px;
             box-shadow: 3px 3px 6px grey;
             margin-bottom: 7.5px;
             opacity: 0.7;
@@ -595,7 +582,6 @@ h2 {
         display: flex;
         flex-direction: column;
         align-items: center;
-        //position: sticky;
         z-index: 1;
 
         #image-container {
@@ -605,25 +591,17 @@ h2 {
             #hangman-image {
                 max-width: 70%;
                 height: auto;
-                //max-width: 100%;
-                //height: 100%;
                 margin-bottom: -50px;
             }
             
             #angry-puff {
                 max-width: 100%;
                 height: auto;
-                //max-width: 100%;
-                //max-height: 100%;
-                //margin-top: -50px;
             }
         }
         #word-container {
             display: flex;
             flex: row;
-            //width: 50%;
-            //margin-right: 10px;
-            //margin-bottom: 30%;
         
             p { 
                 font-size: 55px;
@@ -636,7 +614,6 @@ h2 {
     #win-pop-up {
         overflow: auto;
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
         @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -668,7 +645,6 @@ h2 {
 
     #lose-pop-up {
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
         @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -753,7 +729,6 @@ h2 {
             padding: 7.5px;
             width: 50%;
             margin: 15%;
-            //margin-left: 40%;
         }
     
         button:hover {
@@ -780,10 +755,9 @@ h2 {
         
         #guess-output {
             font-size: 22.5px;
-            //change back later
-            background-color: skyblue;
+            background-color: $primary_pink;
             padding: 2.25px;
-            border-radius: 7.5px;
+            border-radius: 10px;
             box-shadow: 3px 3px 6px grey;
             margin-bottom: 7.5px;
             opacity: 0.7;
@@ -830,25 +804,18 @@ h2 {
             #hangman-image {
                 max-width: 65%;
                 height: auto;
-                //max-width: 100%;
-                //height: 100%;
                 margin-top: -50px;
             }
             
             #angry-puff {
                 max-width: 100%;
                 height: auto;
-                //max-width: 100%;
-                //max-height: 100%;
                 margin-top: -20px;
             }
         }
         #word-container {
             display: flex;
             flex: row;
-            //width: 50%;
-            //margin-right: 10px;
-            //margin-bottom: 30%;
         
             p { 
                 font-size: 55px;
@@ -861,7 +828,6 @@ h2 {
     #win-pop-up {
         overflow: auto;
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
         @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -893,7 +859,6 @@ h2 {
 
     #lose-pop-up {
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
         @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -975,9 +940,8 @@ h2 {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 22.5px;
             padding: 7.5px;
-            width: 50%;
+            width: 30%;
             margin: 15%;
-            //margin-left: 40%;
         }
     
         button:hover {
@@ -1004,10 +968,9 @@ h2 {
         
         #guess-output {
             font-size: 22.5px;
-            //change back later
-            background-color: orange;
+            background-color: $primary_pink;
             padding: 2.25px;
-            border-radius: 7.5px;
+            border-radius: 10px;
             box-shadow: 3px 3px 6px grey;
             margin-bottom: 7.5px;
             opacity: 0.7;
@@ -1044,7 +1007,6 @@ h2 {
         display: flex;
         flex-direction: column;
         align-items: center;
-        //position: sticky;
         z-index: 1;
 
         #image-container {
@@ -1054,25 +1016,18 @@ h2 {
             #hangman-image {
                 max-width: 50%;
                 height: auto;
-                //max-width: 100%;
-                //height: 100%;
                 margin-top: -50px;
             }
             
             #angry-puff {
                 max-width: 75%;
                 height: auto;
-                //max-width: 100%;
-                //max-height: 100%;
                 margin-top: -50px;
             }
         }
         #word-container {
             display: flex;
             flex: row;
-            //width: 50%;
-            //margin-right: 10px;
-            //margin-bottom: 30%;
         
             p { 
                 font-size: 55px;
@@ -1085,7 +1040,6 @@ h2 {
     #win-pop-up {
         overflow: auto;
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #aaf3a5);
         @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -1105,7 +1059,7 @@ h2 {
         button {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 18px;
-            width: 50%;
+            width: 30%;
             margin: 5%;
             transition-duration: 0.3s;
         }
@@ -1117,7 +1071,6 @@ h2 {
 
     #lose-pop-up {
         position: fixed;
-        //@include pop-up-box($pop_up_width, $pop_up_height, $pop_up_corners, #ffc6b3);
         @include pop-up-box($pop_up_width, 50% , $pop_up_corners, #e6e6e6);
         text-align: center;
         transform:translate(50%, 0%);
@@ -1138,7 +1091,7 @@ h2 {
         button {
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 18px;
-            width: 50%;
+            width: 30%;
             margin: 5%;
             transition-duration: 0.3s;
         }
@@ -1165,7 +1118,7 @@ h2 {
         button{
             @include pretty-button(white, 	#24a824,  #81e481);
             font-size: 18px;
-            width: 50%;
+            width: 30%;
             margin: 5%;
             transition-duration: 0.3s;
         }
