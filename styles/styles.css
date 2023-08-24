@@ -385,7 +385,6 @@ h2 {
     background-color: #e6e6e6;
     box-shadow: 4px 4px 8px grey;
     opacity: 0.75;
-    text-align: center;
     transform: translate(50%, 0%);
     opacity: 1;
     z-index: 2;
@@ -796,12 +795,11 @@ h2 {
   #hangman-container #image-container #hangman-image {
     max-width: 65%;
     height: auto;
-    margin-top: -50px;
+    margin-bottom: -50px;
   }
   #hangman-container #image-container #angry-puff {
     max-width: 100%;
     height: auto;
-    margin-top: -20px;
   }
   #hangman-container #word-container {
     display: flex;
@@ -1015,12 +1013,11 @@ h2 {
   #hangman-container #image-container #hangman-image {
     max-width: 50%;
     height: auto;
-    margin-top: -50px;
+    margin-bottom: -50px;
   }
   #hangman-container #image-container #angry-puff {
     max-width: 75%;
     height: auto;
-    margin-top: -50px;
   }
   #hangman-container #word-container {
     display: flex;

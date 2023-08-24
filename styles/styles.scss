@@ -87,7 +87,6 @@ h2 {
     #hangman-image {
         max-width: 50%;
         max-height: 90%;
-        //margin-top: 90%;
         top: 20%;
     }
     
@@ -169,7 +168,6 @@ h2 {
 
     transform:translate(50%, 0%);
     opacity: 1;
-    //display: none;
     z-index: 2;
 
     p, ul{
@@ -402,7 +400,7 @@ h2 {
         overflow: auto;
         position: fixed;
         @include pop-up-box($pop_up_width, 50%, $pop_up_corners, #e6e6e6);
-        text-align: center;
+        //text-align: left;
         transform:translate(50%, 0%);
         opacity: 1;
         z-index: 2;
@@ -804,13 +802,13 @@ h2 {
             #hangman-image {
                 max-width: 65%;
                 height: auto;
-                margin-top: -50px;
+                margin-bottom: -50px;
             }
             
             #angry-puff {
                 max-width: 100%;
                 height: auto;
-                margin-top: -20px;
+                //margin-top: -20px;
             }
         }
         #word-container {
@@ -1016,13 +1014,13 @@ h2 {
             #hangman-image {
                 max-width: 50%;
                 height: auto;
-                margin-top: -50px;
+                margin-bottom: -50px;
             }
             
             #angry-puff {
                 max-width: 75%;
                 height: auto;
-                margin-top: -50px;
+               // margin-top: -50px;
             }
         }
         #word-container {
